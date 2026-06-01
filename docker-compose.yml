@@ -1,0 +1,15 @@
+services:
+  jiaan-web:
+    build: .
+    image: jiaan-web:latest
+    container_name: jiaan-web
+    expose:
+      - "80"
+    restart: unless-stopped
+    networks:
+      - shared
+
+networks:
+  shared:
+    external: true
+    name: docker_shared_network

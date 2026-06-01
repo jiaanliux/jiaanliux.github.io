@@ -1,0 +1,33 @@
+---
+// Inline SVG icons rendered from the official Phosphor set (@iconify-json/ph).
+// One icon family, real library data, no hand-drawn paths.
+import phData from '@iconify-json/ph/icons.json';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+const { name, class: cls } = Astro.props;
+const key = name.replace(/^ph:/, '');
+const set = phData as unknown as {
+  width?: number;
+  height?: number;
+  icons: Record<string, { body: string; width?: number; height?: number }>;
+};
+const icon = set.icons[key];
+const w = icon?.width ?? set.width ?? 256;
+const h = icon?.height ?? set.height ?? 256;
+---
+
+{
+  icon && (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${w} ${h}`}
+      class={cls}
+      fill="currentColor"
+      aria-hidden="true"
+      set:html={icon.body}
+    />
+  )
+}

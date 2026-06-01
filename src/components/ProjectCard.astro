@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  variant: 'feature' | 'left' | 'right';
+}
+const { project, variant } = Astro.props;
+const isFeature = variant === 'feature';
+---
+
+<article class={`pc reveal pc-${variant}`}>
+  <a class="pc-media" href={`/projects/${project.slug}`} aria-label={`Open ${project.title}`}>
+    <Image
+      src={project.cover}
+      alt={project.title}
+      widths={isFeature ? [640, 1024, 1600] : [480, 800, 1100]}
+      sizes={isFeature ? '(max-width: 880px) 92vw, 1100px' : '(max-width: 880px) 92vw, 540px'}
+      loading="lazy"
+    />
+  </a>
+
+  <div class="pc-body">
+    <p class="kicker">{project.category}</p>
+    <h3 class="pc-title">
+      <a href={`/projects/${project.slug}`} class="link-underline">{project.title}</a>
+    </h3>
+    <p class="pc-tagline">{project.tagline}</p>
+    <p class="pc-summary">{project.summary}</p>
+
+    <ul class="pc-tech">
+      {project.tech.slice(0, isFeature ? 6 : 4).map((t) => <li class="chip">{t}</li>)}
+    </ul>
+
+    <div class="pc-links">
+      <a class="pc-cta" href={`/projects/${project.slug}`}>
+        View project <Icon name="ph:arrow-right" />
+      </a>
+      {
+        project.links[0] && (
+          <a class="pc-out" href={project.links[0].href} target="_blank" rel="noopener">
+            {project.links[0].label} <Icon name="ph:arrow-up-right" />
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .pc { display: grid; gap: 1.5rem; align-items: center; }
+  .pc-media {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+  .pc-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+  .pc-media:hover img { transform: scale(1.03); }
+
+  .pc-title { font-size: var(--step-2); margin: 0.5rem 0 0; }
+  .pc-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--step-1);
+    color: var(--color-accent);
+    margin: 0.4rem 0 0.7rem;
+    line-height: 1.3;
+  }
+  .pc-summary { color: var(--color-ink-soft); margin: 0; max-width: 60ch; }
+
+  .pc-tech { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 1rem 0 0; }
+
+  .pc-links { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; margin-top: 1.25rem; }
+  .pc-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+  .pc-cta :global(svg) { width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); }
+  .pc-cta:hover :global(svg) { transform: translateX(3px); }
+  .pc-out {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--color-ink-soft);
+  }
+  .pc-out :global(svg) { width: 0.9rem; height: 0.9rem; }
+  .pc-out:hover { color: var(--color-ink); }
+
+  .pc-feature .pc-media { aspect-ratio: 16 / 9; }
+
+  @media (min-width: 880px) {
+    .pc-left, .pc-right { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .pc-left .pc-media { aspect-ratio: 4 / 3; }
+    .pc-right .pc-media { aspect-ratio: 4 / 3; order: 2; }
+    .pc-feature .pc-media { aspect-ratio: 21 / 9; }
+  }
+</style>

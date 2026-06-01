@@ -1,0 +1,53 @@
+---
+import Icon from '../components/Icon.astro';
+import Base from '../layouts/Base.astro';
+import { publications } from '../data/publications';
+---
+
+<Base title="Publications · Jia An Liu" description="Peer-reviewed publications, book chapters, and policy outputs by Jia An Liu.">
+  <section class="section">
+    <div class="wrap">
+      <header class="head reveal">
+        <p class="kicker">Publications</p>
+        <h1>Research, in print.</h1>
+        <p class="lede">Peer-reviewed papers, book chapters, datasets, and policy outputs across agentic AI, computer vision, remote sensing, and environmental science.</p>
+      </header>
+
+      <ol class="pubs">
+        {
+          publications.map((pub) => (
+            <li class="pub reveal">
+              <span class="pub-year">{pub.year}</span>
+              <div class="pub-body">
+                <p class="pub-title">
+                  {pub.href ? <a href={pub.href} target="_blank" rel="noopener" class="link-underline">{pub.title}</a> : pub.title}
+                </p>
+                <p class="pub-meta" set:html={pub.authors.replace('Liu, J.', '<strong>Liu, J.</strong>')} />
+                <p class="pub-venue">{pub.venue}</p>
+                {pub.badges && (
+                  <div class="pub-badges">{pub.badges.map((b) => <span class="chip chip-accent">{b}</span>)}</div>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  .head { max-width: 62ch; margin-bottom: 2.5rem; }
+  .head h1 { font-size: var(--step-4); margin: 0.5rem 0 0.75rem; }
+
+  .pubs { list-style: none; padding: 0; margin: 0; }
+  .pub { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding: 1.6rem 0; border-top: 1px solid var(--color-line); }
+  .pub:last-child { border-bottom: 1px solid var(--color-line); }
+  .pub-year { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-ink-faint); padding-top: 0.2rem; }
+  .pub-title { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.3; margin: 0 0 0.35rem; }
+  .pub-meta { font-size: 0.85rem; color: var(--color-ink-soft); margin: 0 0 0.2rem; }
+  .pub-meta :global(strong) { color: var(--color-ink); }
+  .pub-venue { font-size: 0.85rem; color: var(--color-ink-faint); margin: 0; }
+  .pub-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+</style>

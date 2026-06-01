@@ -1,0 +1,156 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import Base from '../../layouts/Base.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects
+    .filter((p) => p.featured)
+    .map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const idx = projects.filter((p) => p.featured).findIndex((p) => p.slug === project.slug);
+const all = projects.filter((p) => p.featured);
+const next = all[(idx + 1) % all.length];
+---
+
+<Base title={`${project.title} · Jia An Liu`} description={project.summary}>
+  <article class="proj">
+    <div class="wrap">
+      <a class="back" href="/#work"><Icon name="ph:arrow-left" /> Back to work</a>
+
+      <header class="proj-head reveal">
+        <p class="kicker">{project.category}</p>
+        <h1>{project.title}</h1>
+        <p class="proj-tagline">{project.tagline}</p>
+
+        <dl class="proj-meta">
+          <div><dt>Role</dt><dd>{project.role}</dd></div>
+          <div><dt>Period</dt><dd>{project.period}</dd></div>
+        </dl>
+
+        {
+          project.links.length > 0 && (
+            <div class="proj-links">
+              {project.links.map((l) => (
+                <a class="btn btn-ghost" href={l.href} target="_blank" rel="noopener">
+                  {l.label} <Icon name="ph:arrow-up-right" />
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <!-- Lead image -->
+      <figure class="lead reveal">
+        <Image
+          class="zoomable"
+          src={project.gallery[0].src}
+          alt={project.gallery[0].alt}
+          data-caption={project.gallery[0].caption}
+          widths={[640, 1024, 1600]}
+          sizes="(max-width: 1100px) 92vw, 1100px"
+          loading="eager"
+        />
+        <figcaption>{project.gallery[0].caption}</figcaption>
+      </figure>
+
+      <div class="proj-body">
+        <div class="proj-text reveal">
+          {project.description.map((para) => <p>{para}</p>)}
+        </div>
+        <aside class="proj-side reveal">
+          <h2>Highlights</h2>
+          <ul class="hl">
+            {project.highlights.map((h) => <li><Icon name="ph:arrow-bend-down-right" /> <span>{h}</span></li>)}
+          </ul>
+          <h2>Built with</h2>
+          <ul class="tech">{project.tech.map((t) => <li class="chip">{t}</li>)}</ul>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    {
+      project.gallery.length > 1 && (
+        <div class="wrap gallery">
+          {project.gallery.slice(1).map((shot) => (
+            <figure class="gfig reveal">
+              <Image
+                class="zoomable"
+                src={shot.src}
+                alt={shot.alt}
+                data-caption={shot.caption}
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 760px) 92vw, 560px"
+                loading="lazy"
+              />
+              <figcaption>{shot.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="wrap next">
+      <a href={`/projects/${next.slug}`} class="next-link">
+        <span class="next-label">Next project</span>
+        <span class="next-title">{next.title} <Icon name="ph:arrow-right" /></span>
+      </a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .proj { padding-block: clamp(2rem, 5vw, 3.5rem); }
+  .back { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--color-ink-soft); font-size: 0.9rem; margin-bottom: 2rem; }
+  .back :global(svg) { width: 1rem; height: 1rem; }
+  .back:hover { color: var(--color-accent); }
+
+  .proj-head { max-width: 60ch; }
+  .proj-head h1 { font-size: var(--step-4); margin: 0.5rem 0 0; }
+  .proj-tagline {
+    font-family: var(--font-display); font-style: italic; font-size: var(--step-2);
+    color: var(--color-accent); margin: 0.75rem 0 0; line-height: 1.25;
+  }
+  .proj-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin: 1.75rem 0 0; }
+  .proj-meta dt { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-ink-faint); }
+  .proj-meta dd { margin: 0.25rem 0 0; font-weight: 500; }
+  .proj-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.75rem; }
+  .proj-links :global(svg) { width: 0.9rem; height: 0.9rem; }
+
+  figure { margin: 0; }
+  .lead { margin-top: 2.5rem; border: 1px solid var(--color-line); border-radius: var(--radius); overflow: hidden; background: var(--color-surface); }
+  .lead img { width: 100%; display: block; }
+  figcaption { font-size: 0.82rem; color: var(--color-ink-faint); padding: 0.75rem 1rem; background: var(--color-paper); border-top: 1px solid var(--color-line); }
+
+  .proj-body { display: grid; gap: 2.5rem; margin-top: 3rem; }
+  .proj-text { font-size: var(--step-1); color: var(--color-ink-soft); max-width: 65ch; }
+  .proj-text p { margin: 0 0 1.1rem; }
+  .proj-side h2 { font-size: 1rem; margin: 0 0 0.9rem; }
+  .proj-side h2:nth-of-type(2) { margin-top: 2rem; }
+  .hl { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
+  .hl li { display: flex; gap: 0.5rem; font-size: 0.92rem; color: var(--color-ink-soft); }
+  .hl li :global(svg) { width: 1.05rem; height: 1.05rem; color: var(--color-accent); flex-shrink: 0; margin-top: 0.15rem; }
+  .tech { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .gallery { display: grid; gap: 1.25rem; margin-top: 3rem; }
+  .gfig { border: 1px solid var(--color-line); border-radius: var(--radius); overflow: hidden; background: var(--color-surface); }
+  .gfig img { width: 100%; display: block; }
+
+  .next { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--color-line); }
+  .next-link { display: inline-flex; flex-direction: column; gap: 0.3rem; }
+  .next-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-ink-faint); }
+  .next-title { font-family: var(--font-display); font-size: var(--step-2); color: var(--color-ink); display: inline-flex; align-items: center; gap: 0.5rem; }
+  .next-title :global(svg) { width: 1.1rem; height: 1.1rem; transition: transform 0.2s var(--ease-out); }
+  .next-link:hover .next-title { color: var(--color-accent); }
+  .next-link:hover .next-title :global(svg) { transform: translateX(4px); }
+
+  @media (min-width: 880px) {
+    .proj-body { grid-template-columns: 1.6fr 1fr; gap: 4rem; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+  }
+</style>

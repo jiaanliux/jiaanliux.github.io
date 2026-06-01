@@ -1,0 +1,162 @@
+---
+import { profile } from '../data/profile';
+
+// On the home page these are in-page anchors; elsewhere they point back home.
+const home = Astro.url.pathname === '/' ? '' : '/';
+const links = [
+  { href: `${home}#about`, label: 'About' },
+  { href: `${home}#work`, label: 'Work' },
+  { href: `${home}#publications`, label: 'Publications' },
+  { href: `${home}#speaking`, label: 'Speaking' },
+  { href: `${home}#contact`, label: 'Contact' },
+];
+---
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="nav-brand">{profile.name}</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      {links.map((l) => <a href={l.href} data-spy={l.href.split('#')[1] ?? ''}>{l.label}</a>)}
+    </nav>
+
+    <a class="btn btn-primary nav-cta" href={profile.links.linkedin} target="_blank" rel="noopener">
+      LinkedIn
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <nav class="nav-mobile" aria-label="Mobile">
+    <div>
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <a href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+    backdrop-filter: saturate(160%) blur(10px);
+    -webkit-backdrop-filter: saturate(160%) blur(10px);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 64px;
+  }
+  .nav-brand {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: none;
+    gap: 0.25rem;
+    margin-left: auto;
+  }
+  .nav-links a {
+    padding: 0.45rem 0.7rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    color: var(--color-ink-soft);
+    transition: color 0.18s var(--ease-out), background-color 0.18s var(--ease-out);
+  }
+  .nav-links a:hover { color: var(--color-ink); background: var(--color-surface); }
+  .nav-links a.active { color: var(--color-accent); }
+
+  .nav-cta { display: none; padding: 0.5rem 0.95rem; font-size: 0.85rem; }
+
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 0 8px;
+    background: transparent;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    cursor: pointer;
+    margin-left: auto;
+  }
+  .nav-toggle span {
+    display: block;
+    height: 1.5px;
+    background: var(--color-ink);
+    transition: transform 0.25s var(--ease-out), opacity 0.2s var(--ease-out);
+  }
+  .nav-toggle[aria-expanded='true'] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav-toggle[aria-expanded='true'] span:last-child { transform: translateY(-3px) rotate(-45deg); }
+
+  .nav-mobile {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s var(--ease-out);
+  }
+  .nav-mobile > div { overflow: hidden; }
+  .nav-mobile.open { grid-template-rows: 1fr; border-bottom: 1px solid var(--color-line); }
+  .nav-mobile a {
+    display: block;
+    padding: 0.7rem 1.5rem;
+    color: var(--color-ink-soft);
+    border-top: 1px solid var(--color-line-soft);
+  }
+
+  @media (min-width: 880px) {
+    .nav-links { display: flex; }
+    .nav-cta { display: inline-flex; }
+    .nav-toggle { display: none; }
+    .nav-mobile { display: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const mobile = document.querySelector<HTMLElement>('.nav-mobile');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    mobile?.classList.toggle('open', !open);
+  });
+  mobile?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      mobile.classList.remove('open');
+    })
+  );
+
+  // Scroll spy (home page only)
+  const spy = document.querySelectorAll<HTMLAnchorElement>('.nav-links a[data-spy]');
+  if (spy.length) {
+    const map = new Map<string, HTMLAnchorElement>();
+    spy.forEach((a) => map.set(a.dataset.spy || '', a));
+    const so = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            spy.forEach((a) => a.classList.remove('active'));
+            map.get(e.target.id)?.classList.add('active');
+          }
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    map.forEach((_, id) => {
+      const sec = document.getElementById(id);
+      if (sec) so.observe(sec);
+    });
+  }
+</script>

@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Jia An Liu — Project Portfolio · UNU-INWEH Geospatial Application and Data Analytics Associate</title>
+<meta name="description" content="Project portfolio submitted for the UNU-INWEH Geospatial Application and Data Analytics Associate longlist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent:        #234E7D;
+    --accent2:       #2F6FB0;
+    --accent-soft:   #EEF3F9;
+    --text:          #1F2937;
+    --text-soft:     #4B5563;
+    --text-faint:    #9CA3AF;
+    --line:          #E2E6EC;
+    --line-soft:     #F1F3F6;
+    --bg:            #FFFFFF;
+    --bg-soft:       #FAFBFC;
+
+    --a1: #0F766E;  --a1-bg: #E6F4F2;
+    --a2: #2563EB;  --a2-bg: #E8EFFD;
+    --a3: #D97706;  --a3-bg: #FBEFDE;
+    --a4: #7C3AED;  --a4-bg: #EFE7FD;
+    --a5: #DB2777;  --a5-bg: #FDE7F0;
+    --a6: #0891B2;  --a6-bg: #E1F2F7;
+    --a7: #475569;  --a7-bg: #ECEEF1;
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 1px 3px rgba(15, 23, 42, .04);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, .06), 0 2px 4px rgba(15, 23, 42, .04);
+    --radius:    12px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  code, .mono { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace; }
+  a { color: var(--accent2); text-decoration: none; transition: color .15s; }
+  a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ============== Top nav (sticky, scroll-spy) ============== */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 12px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-brand {
+    display: flex; align-items: baseline; gap: 10px;
+    font-weight: 600; color: var(--accent); font-size: 16px;
+  }
+  .nav-brand .sub { font-weight: 400; color: var(--text-faint); font-size: 13px; }
+  .nav-links {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    list-style: none; padding: 0; margin: 0;
+  }
+  .nav-links a {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-soft);
+    transition: background .15s, color .15s;
+  }
+  .nav-links a:hover { background: var(--accent-soft); color: var(--accent); text-decoration: none; }
+  .nav-links a.active { background: var(--accent); color: white; }
+  @media (max-width: 900px) {
+    .nav-inner { padding: 10px 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .nav-links { font-size: 12px; }
+  }
+
+  /* ============== Container ============== */
+  .container {
+    max-width: 1200px; margin: 0 auto;
+    padding: 32px;
+  }
+  @media (max-width: 700px) { .container { padding: 20px 16px; } }
+
+  /* ============== Hero ============== */
+  .hero { padding: 56px 0 24px; border-bottom: 1px solid var(--line); }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    margin: 0 0 8px; color: var(--accent);
+    font-weight: 700; letter-spacing: -0.01em; line-height: 1.15;
+  }
+  .hero h1 .light { font-weight: 400; color: var(--text); }
+  .hero .lede {
+    font-size: 16px; color: var(--text-soft); max-width: 760px;
+    margin: 0 0 20px;
+  }
+  .hero .meta {
+    display: flex; flex-wrap: wrap; gap: 16px 24px;
+    font-size: 13px; color: var(--text-faint);
+  }
+  .hero .meta a { color: var(--accent2); }
+  .hero .meta .label { color: var(--text-soft); font-weight: 500; margin-right: 4px; }
+
+  /* ============== Section heading ============== */
+  .section { padding: 48px 0; }
+  .section h2 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); font-weight: 600; margin: 0 0 4px;
+  }
+  .section h3 {
+    font-size: 24px; font-weight: 600; margin: 0 0 20px;
+    color: var(--text);
+  }
+
+  /* ============== Coverage matrix ============== */
+  .matrix-wrap { overflow-x: auto; }
+  .matrix {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    font-size: 13px; min-width: 720px;
+  }
+  .matrix th, .matrix td {
+    padding: 12px 10px; text-align: center;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .matrix thead th {
+    font-weight: 600; font-size: 11px; line-height: 1.3;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    padding-bottom: 16px;
+    cursor: pointer; user-select: none;
+    transition: background .15s;
+  }
+  .matrix thead th:hover { background: var(--bg-soft); }
+  .matrix thead th.proj-col { text-align: left; cursor: default; }
+  .matrix thead th.proj-col:hover { background: transparent; }
+  .matrix tbody tr { transition: background .15s; cursor: pointer; }
+  .matrix tbody tr:hover { background: var(--bg-soft); }
+  .matrix tbody tr.dim { opacity: .35; }
+  .matrix tbody tr.highlight { background: var(--accent-soft); }
+  .matrix td.proj-name { text-align: left; font-weight: 500; color: var(--text); }
+  .matrix td.proj-name .idx { color: var(--text-faint); font-weight: 400; margin-right: 8px; font-variant-numeric: tabular-nums; }
+  .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    box-shadow: 0 0 0 3px transparent;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .matrix th.active { color: white; }
+  .matrix th.active.a1 { background: var(--a1); }
+  .matrix th.active.a2 { background: var(--a2); }
+  .matrix th.active.a3 { background: var(--a3); }
+  .matrix th.active.a4 { background: var(--a4); }
+  .matrix th.active.a5 { background: var(--a5); }
+  .matrix th.active.a6 { background: var(--a6); }
+  .matrix th.active.a7 { background: var(--a7); }
+  .matrix tr.highlight .dot { transform: scale(1.4); }
+  .matrix-filter-hint {
+    margin-top: 12px; font-size: 12px; color: var(--text-faint);
+    font-style: italic;
+  }
+  .clear-filter {
+    display: none;
+    margin-top: 8px;
+    font-size: 12px;
+    background: none; border: 1px solid var(--line); border-radius: 6px;
+    padding: 4px 10px; cursor: pointer; color: var(--text-soft);
+  }
+  .clear-filter:hover { background: var(--bg-soft); border-color: var(--accent2); color: var(--accent); }
+  .clear-filter.show { display: inline-block; }
+
+  /* color chips */
+  .a1 { color: var(--a1); }
+  .a2 { color: var(--a2); }
+  .a3 { color: var(--a3); }
+  .a4 { color: var(--a4); }
+  .a5 { color: var(--a5); }
+  .a6 { color: var(--a6); }
+  .a7 { color: var(--a7); }
+  .dot.a1 { background: var(--a1); }
+  .dot.a2 { background: var(--a2); }
+  .dot.a3 { background: var(--a3); }
+  .dot.a4 { background: var(--a4); }
+  .dot.a5 { background: var(--a5); }
+  .dot.a6 { background: var(--a6); }
+  .dot.a7 { background: var(--a7); }
+
+  /* ============== Project cards ============== */
+  .project {
+    padding: 40px 0; border-top: 1px solid var(--line);
+    scroll-margin-top: 76px;
+    transition: opacity .25s;
+  }
+  .project.hidden { display: none; }
+  .project.dim { opacity: 0.25; }
+  .project-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px;
+    margin-bottom: 8px;
+  }
+  .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--accent2); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .project h3.title {
+    font-size: 24px; font-weight: 600; color: var(--accent);
+    margin: 4px 0 0; line-height: 1.25; letter-spacing: -0.01em;
+    flex: 1 1 auto; min-width: 280px;
+  }
+  .project h3.title .subtitle {
+    color: var(--text); font-weight: 400;
+  }
+  .project h3.title em { font-style: italic; }
+
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin: 14px 0 18px;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11.5px; font-weight: 600;
+    padding: 4px 10px; border-radius: 999px;
+    color: white;
+    cursor: pointer;
+    transition: transform .12s;
+    border: none;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.a1 { background: var(--a1); }
+  .chip.a2 { background: var(--a2); }
+  .chip.a3 { background: var(--a3); }
+  .chip.a4 { background: var(--a4); }
+  .chip.a5 { background: var(--a5); }
+  .chip.a6 { background: var(--a6); }
+  .chip.a7 { background: var(--a7); }
+
+  .role {
+    font-size: 14.5px; line-height: 1.7; color: var(--text);
+    margin: 0 0 14px;
+  }
+  .role .label {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-right: 6px; vertical-align: 1px;
+  }
+  .role strong { font-weight: 600; }
+  .role em { font-style: italic; }
+
+  .tools {
+    display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+    margin: 12px 0 14px;
+  }
+  .tool {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    padding: 3px 9px;
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+
+  .links { margin: 12px 0 18px; padding-left: 0; list-style: none; }
+  .links li {
+    position: relative;
+    padding: 6px 0 6px 18px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .links li::before {
+    content: ""; position: absolute;
+    left: 0; top: 14px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent2);
+  }
+  .links li .label {
+    font-weight: 600; color: var(--text); margin-right: 4px;
+  }
+  .links li .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent2);
+    word-break: break-word;
+  }
+  .links li .note { color: var(--text-soft); font-size: 13px; }
+  .links li em { color: var(--text-soft); font-style: italic; }
+
+  /* ============== Gallery ============== */
+  .gallery {
+    display: grid; gap: 10px;
+    margin: 12px 0 18px;
+  }
+  .gallery.cols-1 { grid-template-columns: 1fr; }
+  .gallery.cols-2 { grid-template-columns: 1fr 1fr; }
+  .gallery.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .gallery.weighted-3 { grid-template-columns: 1.55fr 1fr; }
+  @media (max-width: 700px) {
+    .gallery.cols-2, .gallery.cols-3, .gallery.weighted-3 { grid-template-columns: 1fr; }
+  }
+  .gallery figure {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: white;
+    box-shadow: var(--shadow-sm);
+    cursor: zoom-in;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .gallery figure:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent2);
+  }
+  .gallery figure img {
+    display: block; width: 100%; height: auto;
+  }
+  .gallery figcaption {
+    padding: 8px 12px 10px;
+    font-size: 12px; color: var(--text-soft); line-height: 1.5;
+    border-top: 1px solid var(--line-soft);
+    background: var(--bg-soft);
+  }
+  .gallery figcaption strong { color: var(--text); font-weight: 600; }
+
+  /* Hero figure (Project 4 diagram) */
+  .hero-figure {
+    margin: 16px 0 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: white;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    cursor: zoom-in;
+  }
+  .hero-figure img { display: block; width: 100%; height: auto; }
+  .hero-figure figcaption {
+    padding: 12px 16px;
+    font-size: 13px; color: var(--text-soft);
+    border-top: 1px solid var(--line-soft);
+    background: var(--bg-soft);
+  }
+  .hero-figure figcaption strong { color: var(--accent); }
+
+  /* Sub-product (Project 4 internal subsections) */
+  .sub {
+    margin: 22px 0;
+    padding: 18px 20px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .sub .sub-head {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 14px;
+    margin-bottom: 6px;
+  }
+  .sub .sub-head h4 {
+    margin: 0; font-size: 15px; font-weight: 600; color: var(--accent);
+  }
+  .sub .sub-head .url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; color: var(--accent2);
+  }
+  .sub .sub-head .note {
+    font-size: 12px; color: var(--text-faint);
+  }
+  .sub .desc { font-size: 13.5px; color: var(--text-soft); line-height: 1.6; margin: 6px 0 12px; }
+
+  .subhead {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin: 24px 0 4px;
+  }
+
+  /* ============== Footer ============== */
+  footer {
+    padding: 40px 0 60px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  footer a { color: var(--accent2); }
+
+  /* ============== Reveal-on-scroll ============== */
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============== Lightbox ============== */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(15, 23, 42, .88);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 32px;
+    cursor: zoom-out;
+    animation: fade .15s ease;
+  }
+  .lightbox.open { display: flex; }
+  @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+  .lightbox img {
+    max-width: 100%; max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  }
+  .lightbox-close {
+    position: absolute; top: 20px; right: 24px;
+    background: rgba(255,255,255,.12);
+    color: white; border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 18px; line-height: 36px;
+    transition: background .15s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,.22); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      Jia An Liu <span class="sub">· Project Portfolio</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#matrix">Coverage</a></li>
+      <li><a href="#p1">1 · UrbanAgents</a></li>
+      <li><a href="#p2">2 · EnvironMax</a></li>
+      <li><a href="#p3">3 · SYSU-HiRoads</a></li>
+      <li><a href="#p4">4 · FutureWork &amp; Multi-Cloud</a></li>
+      <li><a href="#p5">5 · Project Websites</a></li>
+      <li><a href="#p6">6 · Tessera</a></li>
+      <li><a href="#p7">7 · ICT Operations</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- ============== HERO ============== -->
+  <section class="hero">
+    <h1>Jia An Liu <span class="light">— Project Portfolio</span></h1>
+    <p class="lede">
+      Project examples for the Geospatial Application and Data Analytics Associate position at
+      <strong>UNU-INWEH</strong>. Each entry maps to one or more of the seven evaluation areas
+      from the longlist-followup request: GIS, full-stack web, cloud, version control &amp; deploy, CMS, LMS, and ICT.
+    </p>
+    <div class="meta">
+      <span><span class="label">Author</span> Jia An Liu</span>
+      <span><span class="label">Email</span> <a href="mailto:jiaan@unu.edu">jiaan@unu.edu</a></span>
+      <span><span class="label">PDF</span> <a href="Jiaan_Liu_UNU-INWEH_Longlist_Followup.pdf">Jiaan_Liu_UNU-INWEH_Longlist_Followup.pdf</a></span>
+      <span><span class="label">Prepared</span> May 2026</span>
+    </div>
+  </section>
+
+  <!-- ============== COVERAGE MATRIX ============== -->
+  <section class="section" id="matrix">
+    <h2>At a glance</h2>
+    <h3>Coverage matrix</h3>
+    <div class="matrix-wrap">
+      <table class="matrix" id="coverageTable">
+        <thead>
+          <tr>
+            <th class="proj-col">Project</th>
+            <th class="a1" data-area="a1">Geospatial / GIS</th>
+            <th class="a2" data-area="a2">Web full-stack</th>
+            <th class="a3" data-area="a3">Cloud</th>
+            <th class="a4" data-area="a4">Version control &amp; deploy</th>
+            <th class="a5" data-area="a5">CMS</th>
+            <th class="a6" data-area="a6">LMS</th>
+            <th class="a7" data-area="a7">ICT / SharePoint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-areas="a1 a2" data-target="p1"><td class="proj-name"><span class="idx">1</span>UrbanAgents</td>
+            <td><span class="dot a1"></span></td><td><span class="dot a2"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr data-areas="a1 a2" data-target="p2"><td class="proj-name"><span class="idx">2</span>EnvironMax health platform</td>
+            <td><span class="dot a1"></span></td><td><span class="dot a2"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr data-areas="a1" data-target="p3"><td class="proj-name"><span class="idx">3</span>SYSU-HiRoads + VLG</td>
+            <td><span class="dot a1"></span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr data-areas="a2 a3 a4 a7" data-target="p4"><td class="proj-name"><span class="idx">4</span>UNU Macau AI Tools Platform</td>
+            <td></td><td><span class="dot a2"></span></td><td><span class="dot a3"></span></td><td><span class="dot a4"></span></td><td></td><td></td><td><span class="dot a7"></span></td></tr>
+          <tr data-areas="a2 a4 a5 a6" data-target="p5"><td class="proj-name"><span class="idx">5</span>UNU Macau project websites</td>
+            <td></td><td><span class="dot a2"></span></td><td></td><td><span class="dot a4"></span></td><td><span class="dot a5"></span></td><td><span class="dot a6"></span></td><td></td></tr>
+          <tr data-areas="a2 a3 a4" data-target="p6"><td class="proj-name"><span class="idx">6</span>Tessera (Agentic Data Analysis)</td>
+            <td></td><td><span class="dot a2"></span></td><td><span class="dot a3"></span></td><td><span class="dot a4"></span></td><td></td><td></td><td></td></tr>
+          <tr data-areas="a5 a6 a7" data-target="p7"><td class="proj-name"><span class="idx">7</span>UNU Macau ICT operations</td>
+            <td></td><td></td><td></td><td></td><td><span class="dot a5"></span></td><td><span class="dot a6"></span></td><td><span class="dot a7"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="matrix-filter-hint">Click a column header to filter projects by capability area. Click a row to jump to its project card.</div>
+    <button class="clear-filter" id="clearFilter">Clear filter</button>
+  </section>
+
+  <!-- ============== PROJECT 1 ============== -->
+  <article class="project reveal" id="p1" data-areas="a1 a2">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 1</div>
+        <h3 class="title">UrbanAgents <span class="subtitle">— LLM Agent Harness for Geospatial Urban Simulation</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a1" data-area="a1">Geospatial &amp; GIS</button>
+      <button class="chip a2" data-area="a2">Web full-stack</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      I designed and built <strong>UrbanAgents</strong>, a reproducibility-first agent-based modelling harness
+      for LLM-driven agents (100–1000 scale), including the <strong>React/Vite</strong> web interface.
+      I grounded the agents in high-resolution geospatial infrastructure and 15-minute reachability logic,
+      and built scenario pipelines for heatwave resilience and healthcare accessibility, turning complex
+      spatial data into decision-support.
+    </p>
+    <div class="tools">
+      <span class="tool">Python</span><span class="tool">GeoPandas / GDAL</span>
+      <span class="tool">LLMs</span><span class="tool">agent-based modelling</span>
+      <span class="tool">React + Vite</span><span class="tool">Plotly</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">Code:</span>
+        <a class="url" href="https://github.com/UNU-Macau/QuarterSociety">github.com/UNU-Macau/QuarterSociety</a>
+        <span class="note">(version for the published paper)</span>
+      </li>
+      <li><span class="label">Paper:</span>
+        Liu, J., et al. (2026). Cognitive urban simulation with large language models: Agent-based modeling
+        under the fifteen-minute city paradigm. In <em>AI for Humanity: Building an Equitable Digital Future</em>. Springer.
+      </li>
+    </ul>
+    <div class="gallery cols-1">
+      <figure>
+        <img src="screenshots/UrbanAgents.png" alt="UrbanAgents LLM agent-based modelling dashboard, Macau heatwave scenario">
+        <figcaption><strong>UrbanAgents</strong> — the LLM agent-based modelling dashboard shows a heatwave scenario with each agent's thinking and state.</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 2 ============== -->
+  <article class="project reveal" id="p2" data-areas="a1 a2">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 2</div>
+        <h3 class="title">EnvironMax <span class="subtitle">— Intelligent Urban Environmental Health Risk Platform</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a1" data-area="a1">Geospatial &amp; GIS</button>
+      <button class="chip a2" data-area="a2">Web full-stack</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      I was the main researcher and developer of <strong>EnvironMax</strong>, an AI + geospatial platform
+      that brings together multi-source data including geospatial layers and points-of-interest (POI) data,
+      IoT sensors, GPS traces, mobile sensing, and meteorological feeds to produce dynamic,
+      location-based environmental health-risk assessments and personalized healthy-living routing.
+      I designed the spatial risk-assessment algorithm and the map-based interface, and the work was
+      published in <em>Urban Climate</em> (Q1, IF&nbsp;6.4).
+    </p>
+    <div class="tools">
+      <span class="tool">Python</span><span class="tool">GIS analytics</span>
+      <span class="tool">GeoDjango</span><span class="tool">IoT / GPS</span>
+      <span class="tool">risk modelling</span><span class="tool">map visualization</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">Paper:</span>
+        Navigating to urban environmental health: Professionalized and personalized healthy living assistant
+        based on intelligent health risk management. <em>Urban Climate</em> (2021).
+        <br><a class="url" href="https://doi.org/10.1016/j.uclim.2021.101020">doi.org/10.1016/j.uclim.2021.101020</a>
+      </li>
+    </ul>
+    <div class="gallery cols-1">
+      <figure>
+        <img src="screenshots/EnvironMax_routes.jpg" alt="EnvironMax environmental-health navigation map with alternative routes">
+        <figcaption><strong>Environmental-health navigation</strong> — healthier alternative routes with IDW soil-health and air-quality assessment.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/EnvironMax_results.png" alt="EnvironMax exposure analytics dashboard">
+        <figcaption><strong>Exposure analytics</strong> — daily agents' location/route records, per-persona exposure maps, and algorithm result dashboards.</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 3 ============== -->
+  <article class="project reveal" id="p3" data-areas="a1">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 3</div>
+        <h3 class="title">SYSU-HiRoads + VLG <span class="subtitle">— Framework for Road Hierarchy Classification</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a1" data-area="a1">Geospatial &amp; GIS</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      I co-led the public release of <strong>SYSU-HiRoads</strong>, a large-scale, multi-level remote-sensing
+      road dataset (~3,631&nbsp;km<sup>2</sup> of satellite imagery at 0.8&nbsp;m resolution), and co-authored the
+      companion vision-language-geometry (VLG) method for fine-grained road hierarchy classification.
+      I prepared the dataset documentation for external researchers and wrote the UNU Macau article announcing
+      the release, so the wider remote-sensing community can build on it for transport-infrastructure mapping
+      and disaster-response work.
+    </p>
+    <div class="tools">
+      <span class="tool">Python</span><span class="tool">PyTorch</span>
+      <span class="tool">Vision-Language Models</span><span class="tool">GDAL</span>
+      <span class="tool">GeoPandas</span><span class="tool">remote-sensing imagery</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">Paper:</span>
+        A Large-Scale Remote Sensing Dataset and VLM-based Algorithm for Fine-Grained Road Hierarchy Classification.
+        <br><a class="url" href="https://arxiv.org/abs/2603.21222">arxiv.org/abs/2603.21222</a>
+      </li>
+      <li><span class="label">Dataset (openly released):</span>
+        <a class="url" href="https://doi.org/10.5281/zenodo.18642747">doi.org/10.5281/zenodo.18642747</a>
+      </li>
+      <li><span class="label">UNU Macau article:</span>
+        <a class="url" href="https://go.unu.edu/Launching-SYSU-HiRoads">go.unu.edu/Launching-SYSU-HiRoads</a>
+      </li>
+    </ul>
+    <div class="gallery cols-1">
+      <figure>
+        <img src="screenshots/sysu_coverage.jpg" alt="SYSU-HiRoads dataset coverage map across Henan, China">
+        <figcaption><strong>Dataset coverage</strong> — 3,631 km² across Henan, China, with sample tiles showing high-, medium-, and low-grade roads.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/sysu_annotations.jpg" alt="SYSU-HiRoads pixel-level and vector-level road annotations">
+        <figcaption><strong>Fine-grained annotations</strong> — pixel-level and vector-level road labels across grades, on high-resolution remote-sensing imagery.</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 4 ============== -->
+  <article class="project reveal" id="p4" data-areas="a2 a3 a4 a7">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 4</div>
+        <h3 class="title">UNU Macau <em>FutureWork</em> AI Platform <span class="subtitle">&amp; Multi-Cloud Service Infrastructure</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a2" data-area="a2">Web full-stack</button>
+      <button class="chip a3" data-area="a3">Cloud</button>
+      <button class="chip a4" data-area="a4">Version control &amp; deploy</button>
+      <button class="chip a7" data-area="a7">ICT</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      As UNU Macau's ICT Focal Point, I designed, deployed, and operate our multi-cloud service portfolio.
+      I built <strong>FutureWork Studio</strong>, a modular FastAPI portal with a React front-end, integrating
+      the AI and automation tools and workflows I developed to streamline daily research and operations,
+      all secured behind Entra ID / OAuth2-Proxy single sign-on.
+    </p>
+
+    <figure class="hero-figure">
+      <img src="diagrams/diagram.jpg" alt="End-to-end development across multi-cloud and technical substrates">
+      <figcaption><strong>End-to-end development</strong> — research, engineering, deployment, operations, and AI across multi-cloud and technical substrates.</figcaption>
+    </figure>
+
+    <p class="role"><span class="label">Deployment</span>
+      I keep all of this in a single IaC repository across <strong>AWS</strong>, <strong>Azure</strong> and
+      <strong>Cloudflare</strong> with templated <code>docker-compose</code> files plus per-server environment
+      files. I use Git/GitHub with branch protection, stage releases from dev/staging on-prem to production on
+      AWS with a manual sign-off, can roll back to a previous image tag within minutes, and run scheduled
+      database/volume backups for disaster recovery. My routine update is simply
+      <code>git pull &amp;&amp; ./deploy.sh</code>.
+    </p>
+    <div class="tools">
+      <span class="tool">Python (FastAPI)</span><span class="tool">React (Vite, Tailwind)</span>
+      <span class="tool">Docker/Compose</span><span class="tool">AWS</span><span class="tool">Azure</span>
+      <span class="tool">Cloudflare</span><span class="tool">Caddy/Nginx</span><span class="tool">PostgreSQL</span>
+      <span class="tool">Entra ID</span><span class="tool">OAuth2-Proxy</span><span class="tool">Microsoft Graph</span>
+      <span class="tool">Git/GitHub</span>
+    </div>
+
+    <h4 class="subhead">Hosted products</h4>
+
+    <div class="sub">
+      <div class="sub-head">
+        <h4>FutureWork Studio</h4>
+        <a class="url" href="https://futurework.unu-macau.org/">futurework.unu-macau.org</a>
+        <span class="note">requires UNU login · Macau staff only</span>
+      </div>
+      <div class="gallery cols-2">
+        <figure>
+          <img src="screenshots/futurework_login.png" alt="FutureWork Studio sign-in page with UNU Macau branding">
+        </figure>
+        <figure>
+          <img src="screenshots/futurework_portal.png" alt="FutureWork Studio authenticated AI tools portal">
+        </figure>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head">
+        <h4>UNU Macau AI Chatbot (CasaBot)</h4>
+        <a class="url" href="https://chat.unu-macau.org/">chat.unu-macau.org</a>
+        <span class="note">LLM API + local GPU with compute scheduling</span>
+      </div>
+      <div class="gallery cols-1">
+        <figure>
+          <img src="screenshots/UNUMacauLLM.png" alt="UNU Macau LLM chat interface (CasaBot)">
+        </figure>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-head">
+        <h4>AI Agent Hub &amp; KPI Tracker</h4>
+        <a class="url" href="https://agents.unu-macau.org">agents.unu-macau.org</a>
+        <span class="note">requires login · Macau staff only</span>
+      </div>
+      <p class="desc">
+        An <a href="https://github.com/openclaw/openclaw"><strong>OpenClaw</strong></a>-powered agent platform.
+        The <strong>KPI Tracker</strong> agent is a demo that enables staff to track and calculate their KPIs
+        by simply uploading the relevant files; OpenClaw then handles the calculations according to UNU KPI
+        rules automatically.
+      </p>
+      <div class="gallery weighted-3">
+        <figure>
+          <img src="screenshots/AI-agent-hub.png" alt="AI Agent Hub landing page powered by OpenClaw">
+        </figure>
+        <figure>
+          <img src="screenshots/openclaw-kpi-tracker-calculating.png" alt="KPI Agent calculating with streaming LLM reasoning">
+        </figure>
+      </div>
+      <div class="gallery cols-1">
+        <figure>
+          <img src="screenshots/openclaw-kpi-tracker.png" alt="KPI Tracker dashboard with computed KPI values">
+        </figure>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 5 ============== -->
+  <article class="project reveal" id="p5" data-areas="a2 a4 a5 a6">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 5</div>
+        <h3 class="title">UNU Macau <span class="subtitle">Project-Websites Platform</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a2" data-area="a2">Web full-stack</button>
+      <button class="chip a6" data-area="a6">Training platform</button>
+      <button class="chip a5" data-area="a5">Content management</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      I designed and built UNU Macau's project-websites platform from scratch. It is a single FastAPI
+      application that serves multiple research microsites from one codebase, with a hub index, per-project
+      routers, and a reusable template so new sites stay consistent. An
+      <a href="https://github.com/anomalyco/opencode"><strong>OpenCode</strong></a> AI layer is integrated to
+      enable internal researchers to create new sites with their project documentation within minutes,
+      leveraging LLM coding agents. The first live site is <strong>ReModelUN</strong>, an interactive learning
+      hub I built for a summer training camp.
+    </p>
+    <div class="tools">
+      <span class="tool">Python (FastAPI)</span><span class="tool">Jinja2</span>
+      <span class="tool">Tailwind CSS</span><span class="tool">Docker</span><span class="tool">Git/GitHub</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">ReModelUN (live):</span>
+        <a class="url" href="https://projects.unu-macau.org/ReModelUN">projects.unu-macau.org/ReModelUN</a>
+      </li>
+    </ul>
+    <div class="gallery cols-2">
+      <figure>
+        <img src="screenshots/remodelun1.png" alt="ReModelUN hero page — UNU Macau Digital Future Summer Training Program">
+      </figure>
+      <figure>
+        <img src="screenshots/remodelun2.png" alt="ReModelUN distinctive features section">
+      </figure>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 6 ============== -->
+  <article class="project reveal" id="p6" data-areas="a2 a3 a4">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 6</div>
+        <h3 class="title">Tessera <span class="subtitle">— Agentic AI for Large-Scale Content Analysis (NLP)</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a2" data-area="a2">Web full-stack</button>
+      <button class="chip a4" data-area="a4">Version control &amp; deploy</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      I designed and built an end-to-end agent harness (framework) for large-scale qualitative data analysis.
+      (One research use case is that we are using it to <strong>analyze large-scale social media corpus data</strong>
+      on online misogyny for a UN Women research project.) <strong>Tessera</strong> is a multi-tenant platform
+      (FastAPI + PostgreSQL backend, React + Vite front-end I wrote) with a YAML recipe DSL, fault tolerance
+      that lets failed documents resume rather than crash, content-addressed caching for byte-level
+      reproducibility, a web monitoring UI, and full audit trails (prompt hashes and run manifests).
+    </p>
+    <div class="tools">
+      <span class="tool">Python (FastAPI)</span><span class="tool">SQLAlchemy</span>
+      <span class="tool">PostgreSQL</span><span class="tool">React + Vite</span>
+      <span class="tool">Docker</span><span class="tool">JSON-schema validation</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">Links:</span> <em>Not publicly released yet.</em></li>
+    </ul>
+    <div class="gallery cols-2">
+      <figure>
+        <img src="screenshots/Tessera1.png" alt="Tessera overview page — multi-stage LLM annotation platform">
+      </figure>
+      <figure>
+        <img src="screenshots/Tessera2.png" alt="Tessera jobs/results panel">
+      </figure>
+    </div>
+  </article>
+
+  <!-- ============== PROJECT 7 ============== -->
+  <article class="project reveal" id="p7" data-areas="a5 a6 a7">
+    <div class="project-head">
+      <div>
+        <div class="project-num">Project 7</div>
+        <h3 class="title">UNU Macau ICT Operations <span class="subtitle">— M365 / SharePoint, Moodle, WordPress</span></h3>
+      </div>
+    </div>
+    <div class="chips">
+      <button class="chip a7" data-area="a7">ICT / SharePoint</button>
+      <button class="chip a6" data-area="a6">LMS</button>
+      <button class="chip a5" data-area="a5">CMS</button>
+    </div>
+    <p class="role"><span class="label">Role</span>
+      As UNU Macau's ICT Focal Point, I manage our <strong>Microsoft 365 / SharePoint</strong> environment
+      end to end: I liaise with C3 to establish and assign sites, manage storage, configure access controls,
+      and handle the sharing and file-upload requests that involve external parties. I helped with content
+      management of the <strong>Moodle</strong> instance used for our UNU Macau–Bonn–Maastricht training
+      program, and I am one of the administrators of the <strong>WordPress</strong> site for the UNU Macau AI
+      Conference. I also represented UNU Macau at the 2025 UNU ICT Workshop held by UNU-INWEH.
+    </p>
+    <div class="tools">
+      <span class="tool">Microsoft 365</span><span class="tool">SharePoint</span>
+      <span class="tool">Microsoft Graph</span><span class="tool">Entra ID</span>
+      <span class="tool">Moodle</span><span class="tool">WordPress</span>
+    </div>
+    <ul class="links">
+      <li><span class="label">UNU Macau AI Conference 2024 (WordPress):</span>
+        <a class="url" href="https://aimacau-2024.org">aimacau-2024.org</a>
+      </li>
+    </ul>
+    <div class="gallery cols-1">
+      <figure>
+        <img src="screenshots/aimacau_1.png" alt="UNU Macau AI Conference 2024 WordPress site">
+      </figure>
+    </div>
+  </article>
+
+</div>
+
+<footer>
+  <p>
+    Jia An Liu · <a href="mailto:jiaan@unu.edu">jiaan@unu.edu</a> ·
+    Prepared for the UNU-INWEH Geospatial Application and Data Analytics Associate longlist process, May 2026.
+  </p>
+</footer>
+
+<!-- ============== LIGHTBOX ============== -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+  <img id="lightboxImg" alt="">
+</div>
+
+<script>
+  // ============== Scroll-spy ==============
+  (function() {
+    const links = document.querySelectorAll('#navLinks a');
+    const map = new Map();
+    links.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) map.set(el, a);
+    });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(a => a.classList.remove('active'));
+          const a = map.get(entry.target);
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    map.forEach((_a, el) => observer.observe(el));
+  })();
+
+  // ============== Reveal on scroll ==============
+  (function() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+      return;
+    }
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+
+  // ============== Matrix interactivity ==============
+  (function() {
+    const table = document.getElementById('coverageTable');
+    if (!table) return;
+    const headers = table.querySelectorAll('thead th[data-area]');
+    const rows = table.querySelectorAll('tbody tr');
+    const projects = document.querySelectorAll('.project');
+    const clearBtn = document.getElementById('clearFilter');
+    let activeArea = null;
+
+    function applyFilter(area) {
+      activeArea = area;
+      headers.forEach(h => h.classList.toggle('active', h.dataset.area === area));
+      rows.forEach(r => {
+        const has = (r.dataset.areas || '').split(/\s+/).includes(area);
+        r.classList.toggle('dim', !has);
+        r.classList.toggle('highlight', has);
+      });
+      projects.forEach(p => {
+        const has = (p.dataset.areas || '').split(/\s+/).includes(area);
+        p.classList.toggle('dim', !has);
+      });
+      clearBtn.classList.add('show');
+    }
+    function clearFilter() {
+      activeArea = null;
+      headers.forEach(h => h.classList.remove('active'));
+      rows.forEach(r => { r.classList.remove('dim'); r.classList.remove('highlight'); });
+      projects.forEach(p => p.classList.remove('dim'));
+      clearBtn.classList.remove('show');
+    }
+
+    headers.forEach(h => {
+      h.addEventListener('click', () => {
+        const a = h.dataset.area;
+        if (activeArea === a) clearFilter(); else applyFilter(a);
+      });
+    });
+    clearBtn.addEventListener('click', clearFilter);
+
+    // Row click → jump to project
+    rows.forEach(r => {
+      r.addEventListener('click', () => {
+        const target = r.dataset.target;
+        if (target) {
+          const el = document.getElementById(target);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Project chip click → filter
+    document.querySelectorAll('.chip[data-area]').forEach(c => {
+      c.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = c.dataset.area;
+        if (activeArea === a) clearFilter(); else applyFilter(a);
+        document.getElementById('matrix').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  })();
+
+  // ============== Lightbox ==============
+  (function() {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbClose = document.getElementById('lightboxClose');
+
+    function open(src, alt) {
+      lbImg.src = src; lbImg.alt = alt || '';
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTimeout(() => { lbImg.src = ''; }, 200);
+    }
+
+    document.querySelectorAll('.gallery figure img, .hero-figure img').forEach(img => {
+      img.parentElement.addEventListener('click', () => open(img.src, img.alt));
+    });
+    lb.addEventListener('click', e => { if (e.target === lb || e.target === lbImg) close(); });
+    lbClose.addEventListener('click', close);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  })();
+</script>
+
+</body>
+</html>

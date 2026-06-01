@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../../components/Icon.astro';
+import Base from '../../layouts/Base.astro';
+import { projects, moreWork } from '../../data/projects';
+
+const featured = projects.filter((p) => p.featured);
+---
+
+<Base title="Projects · Jia An Liu" description="Selected research and systems work by Jia An Liu.">
+  <section class="section">
+    <div class="wrap">
+      <header class="head reveal">
+        <p class="kicker">Projects</p>
+        <h1>Everything I have built and studied.</h1>
+        <p class="lede">Research frameworks, production platforms, and open datasets, spanning agentic AI, geospatial science, and institutional systems.</p>
+      </header>
+
+      <div class="grid">
+        {
+          featured.map((p) => (
+            <a class="card-link reveal" href={`/projects/${p.slug}`}>
+              <div class="thumb">
+                <Image src={p.cover} alt={p.title} widths={[400, 700, 1000]} sizes="(max-width: 760px) 92vw, 380px" loading="lazy" />
+              </div>
+              <p class="kicker">{p.category}</p>
+              <h2>{p.title}</h2>
+              <p class="card-tag">{p.tagline}</p>
+              <span class="go">View project <Icon name="ph:arrow-right" /></span>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="more reveal">
+        <h2 class="more-h">More work</h2>
+        <ul class="more-list">
+          {
+            moreWork.map((m) => (
+              <li>
+                <div>
+                  <p class="kicker">{m.category}</p>
+                  <h3>{m.title}</h3>
+                  <p class="more-note">{m.note}</p>
+                </div>
+                {m.links[0] && (
+                  <a class="more-link" href={m.links[0].href} target="_blank" rel="noopener">
+                    {m.links[0].label} <Icon name="ph:arrow-up-right" />
+                  </a>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+  .head { max-width: 60ch; margin-bottom: 3rem; }
+  .head h1 { font-size: var(--step-4); margin: 0.5rem 0 0.75rem; }
+
+  .grid { display: grid; gap: 2.5rem 2rem; grid-template-columns: 1fr; }
+  .card-link { display: block; }
+  .thumb { aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-surface); margin-bottom: 1rem; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out); }
+  .card-link:hover .thumb img { transform: scale(1.04); }
+  .card-link h2 { font-size: var(--step-2); margin: 0.4rem 0 0.4rem; }
+  .card-tag { font-family: var(--font-display); font-style: italic; color: var(--color-accent); margin: 0 0 0.75rem; }
+  .go { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; font-weight: 500; color: var(--color-ink-soft); }
+  .go :global(svg) { width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); }
+  .card-link:hover .go { color: var(--color-accent); }
+  .card-link:hover .go :global(svg) { transform: translateX(3px); }
+
+  .more { margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--color-line); }
+  .more-h { font-size: var(--step-2); margin: 0 0 1.5rem; }
+  .more-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  .more-list li { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-start; padding: 1.5rem 0; border-top: 1px solid var(--color-line); }
+  .more-list li:last-child { border-bottom: 1px solid var(--color-line); }
+  .more-list h3 { font-size: var(--step-1); margin: 0.3rem 0 0.4rem; }
+  .more-note { color: var(--color-ink-soft); font-size: 0.9rem; margin: 0; max-width: 60ch; }
+  .more-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.88rem; color: var(--color-accent); white-space: nowrap; }
+  .more-link :global(svg) { width: 0.9rem; height: 0.9rem; }
+
+  @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1080px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

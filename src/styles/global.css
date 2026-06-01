@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+/* Self-hosted variable fonts (no external <link> in production) */
+@import "@fontsource-variable/newsreader/index.css";
+@import "@fontsource-variable/newsreader/wght-italic.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ============================================================
+   Design tokens  —  Editorial direction, restrained palette.
+   One signal accent (UN ink-blue), cool slate neutrals, one
+   corner-radius scale, hairline borders over heavy shadow.
+   ============================================================ */
+@theme {
+  --font-display: "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  /* Neutrals — cool slate, never pure black/white */
+  --color-bg: #fafbfc;
+  --color-surface: #eef2f6;
+  --color-surface-2: #e6ecf2;
+  --color-paper: #ffffff;
+  --color-ink: #16202e;
+  --color-ink-soft: #4b5867;
+  --color-ink-faint: #8694a3;
+  --color-line: #e1e7ed;
+  --color-line-soft: #eef1f5;
+
+  /* Single locked accent */
+  --color-accent: #234e7d;
+  --color-accent-strong: #1a3c61;
+  --color-accent-tint: #e9f0f7;
+  --color-accent-tint-2: #d7e4f1;
+
+  --radius: 4px;
+
+  --shadow-sm: 0 1px 2px rgba(22, 32, 46, 0.04);
+  --shadow-md: 0 6px 24px -10px rgba(22, 32, 46, 0.18);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.35rem);
+  --step-2: clamp(1.5rem, 1.36rem + 0.7vw, 1.85rem);
+  --step-3: clamp(1.95rem, 1.7rem + 1.25vw, 2.6rem);
+  --step-4: clamp(2.5rem, 2.0rem + 2.5vw, 3.9rem);
+  --step-5: clamp(3rem, 2.2rem + 4vw, 5.2rem);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img { display: block; max-width: 100%; height: auto; }
+}
+
+/* ============================================================
+   Components
+   ============================================================ */
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .wrap { padding-inline: 2.5rem; }
+  }
+
+  .wrap-narrow {
+    width: 100%;
+    max-width: 52rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /* Small mono label used sparingly (eyebrow restraint enforced in markup) */
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .lede {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--color-ink-soft);
+    max-width: 60ch;
+  }
+
+  .prose-body {
+    color: var(--color-ink-soft);
+    max-width: 68ch;
+  }
+  .prose-body p + p { margin-top: 1.1rem; }
+
+  /* Buttons — one shape scale, AA contrast, tactile press */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.15rem;
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    transition: transform 0.15s var(--ease-out), background-color 0.2s var(--ease-out),
+      border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    border: 1px solid var(--color-accent);
+  }
+  .btn-primary:hover { background: var(--color-accent-strong); border-color: var(--color-accent-strong); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .btn-ghost:hover { border-color: var(--color-ink-faint); background: var(--color-paper); }
+
+  /* Chip / tag */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.6rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+    color: var(--color-ink-soft);
+  }
+
+  .chip-accent {
+    border-color: var(--color-accent-tint-2);
+    background: var(--color-accent-tint);
+    color: var(--color-accent-strong);
+  }
+
+  /* Card */
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    transition: border-color 0.25s var(--ease-out), transform 0.25s var(--ease-out),
+      box-shadow 0.25s var(--ease-out);
+  }
+  .card-hover:hover {
+    border-color: var(--color-accent-tint-2);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hairline { border-top: 1px solid var(--color-line); }
+}
+
+/* ============================================================
+   Motion  —  reveal on scroll (custom easing, reduced-motion safe)
+   ============================================================ */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.3s var(--ease-out);
+    padding-bottom: 1px;
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

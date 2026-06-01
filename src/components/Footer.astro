@@ -1,0 +1,78 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/profile';
+
+const year = 2026;
+const social = [
+  { icon: 'ph:linkedin-logo', label: 'LinkedIn', href: profile.links.linkedin },
+  { icon: 'ph:identification-card', label: 'UNU profile', href: profile.links.unu },
+  { icon: 'ph:github-logo', label: 'GitHub', href: profile.links.github },
+  { icon: 'ph:envelope-simple', label: 'Email', href: `mailto:${profile.links.email}` },
+];
+---
+
+<footer class="ft">
+  <div class="wrap ft-inner">
+    <div>
+      <p class="ft-name">{profile.name}</p>
+      <p class="ft-role">{profile.role}, {profile.orgShort}</p>
+    </div>
+    <nav class="ft-social" aria-label="Social and contact">
+      {
+        social.map((s) => (
+          <a href={s.href} target="_blank" rel="noopener" class="ft-link">
+            <Icon name={s.icon} />
+            <span>{s.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="wrap ft-base">
+    <span>© {year} {profile.name}</span>
+    <span>Built with Astro. Designed in Macau.</span>
+  </div>
+</footer>
+
+<style>
+  .ft {
+    margin-top: 5rem;
+    border-top: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+  .ft-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+  .ft-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin: 0;
+  }
+  .ft-role { margin: 0.25rem 0 0; color: var(--color-ink-soft); font-size: 0.9rem; }
+  .ft-social { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+  .ft-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+    color: var(--color-ink-soft);
+    transition: color 0.18s var(--ease-out);
+  }
+  .ft-link:hover { color: var(--color-accent); }
+  .ft-link :global(svg) { width: 1.1rem; height: 1.1rem; }
+  .ft-base {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    padding-bottom: 2.5rem;
+    font-size: 0.8rem;
+    color: var(--color-ink-faint);
+  }
+</style>
