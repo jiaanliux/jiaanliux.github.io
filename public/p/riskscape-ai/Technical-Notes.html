@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"><head><meta name="robots" content="noindex, nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Technical Notes · RiskScape × AI</title><style>*{box-sizing:border-box}body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#fbfcfd;color:#172935;line-height:1.72;margin:0}main{max-width:880px;padding:65px 28px;margin:auto}h1{font-size:48px;line-height:1.05;letter-spacing:-.06em}h2{font-size:29px;letter-spacing:-.04em;border-top:1px solid #dce6e8;padding-top:42px;margin-top:55px}h3{font-size:21px}a{color:#177d9e}pre{background:#172f3d;color:#e9f7fb;padding:22px;border-radius:11px;overflow:auto;font-size:13px;line-height:1.6}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}p code,li code{background:#edf3f5;padding:3px 5px;border-radius:4px;font-size:.93em}table{border-collapse:collapse;display:block;overflow:auto}td,th{text-align:left;border-bottom:1px solid #dce6e8;padding:11px}blockquote{border-left:3px solid #177d9e;padding-left:20px}li{padding-bottom:5px}.back{display:inline-block;margin:27px 0;color:#177d9e;text-decoration:none;font-weight:700}</style></head><body><main><a class="back" href="visual-architecture.html">← Back to visual architecture</a><h1>RiskScape × AI Systems — Technical Notes</h1>
+<p>This companion belongs to <strong>visual-architecture.html</strong>. It contains the explanations intentionally removed from the visual presentation. This is a code-level <strong>integration proposal</strong>, not a claim that the three systems have already been deployed inside RiskScape.</p>
+<h2>1. Native RiskScape extension surfaces</h2>
+<h3>A. No engine changes: CLI / model parameters</h3>
+<ul>
+<li>Official call: <code>riskscape model run damage-by-region -p 'analysis.function=Probability_of_Collapse'</code>.</li>
+<li><code>engine/app/src/main/java/nz/org/riskscape/engine/cli/model/RunCommand.java</code>: <code>RunCommand.doCommand(Project)</code> retrieves the model, updates parameters, realizes its pipeline and calls <code>CliPipelineRunner.run(...)</code>.</li>
+<li><code>.../BaseModelRunCommand.java</code>: supports <code>-p</code> / <code>--param</code> / <code>--parameter</code> and <code>--parameters</code> file.</li>
+<li><code>.../BatchCommand.java</code>: accepts <code>--vary-parameter</code> and <code>--vary-input</code> for many model runs.</li>
+<li>This is the fastest and least invasive interface for Aipelago. It is <strong>not a REST API</strong>.</li>
+</ul>
+<h3>B. Add risk functions through RiskScape configuration</h3>
+<ul>
+<li>A <code>[function]</code> registered as <code>framework=cpython</code> can provide a Python implementation of a mathematically defined vulnerability or loss function.</li>
+<li><code>plugin/cpython/.../CPythonFunction.java</code> in the public <strong>1.13</strong> source mirror: implementation runs Python in a separate process, serializes arguments, deserializes results, and records runtime metrics. This is an implementation observation, not a guaranteed Java ABI for current 1.14.</li>
+<li>Model configuration parameter <code>analysis.function</code> (from official Samoa example) switches between damage functions.</li>
+<li>Proposed ML insertion: <code>(hazard intensity, construction type, asset metadata)</code> → calibrated probability of damage state or expected loss ratio. Model validation remains independent of the interface.</li>
+</ul>
+<h3>C. Customize the pipeline or engine</h3>
+<ul>
+<li><code>DefaultPipelineRealizer</code>: builds an executable dataflow from DSL steps, resolves dependencies and types.</li>
+<li><code>SchedulerBasedExecutor</code>: schedules and executes linked steps.</li>
+<li><code>SampleCoverageAtCentroid</code>, <code>SampleIntersections</code>: spatial sampling routines; selected method changes scientific semantics.</li>
+<li><code>SaveSinkConstructor</code>: output sink construction.</li>
+<li>Java <code>RiskscapeFunction</code>/<code>FunctionProvider</code> extension is possible at source level, but would entail compatibility and maintenance considerations; it is <strong>not</strong> our first pilot.</li>
+</ul>
+<h2>2. Aipelago: actually executable first connection</h2>
+<p><strong>Existing Aipelago code (verified in repository):</strong></p>
+<ul>
+<li><code>src/aipelago/kernel/tool/registry.py</code>: <code>ToolRegistry.register(definition, handler, owner_agent=..., scoped=...)</code>; <code>register_from_manifest(...)</code> resolves handler modules.</li>
+<li><code>src/aipelago/kernel/tool/schema.py</code>: <code>validate_args</code>, <code>validate_output</code> and <code>schema_for_tool</code> for typed tool calls.</li>
+<li><code>src/aipelago/kernel/runtime/runtime.py</code>: coordination of model calls, tool exposure, state and run lifecycle.</li>
+<li><code>src/aipelago/kernel/state/service.py</code>: state service.</li>
+<li><code>src/aipelago/kernel/trajectory/recorder.py</code>: <code>TrajectoryRecorder.record</code> keeps ordered run events and offloads oversized payloads.</li>
+</ul>
+<p><strong>New code required:</strong> <code>riskscape_tool.py</code> async handler that invokes a RiskScape process adapter. A bridge prototype already exists in the previous code-level integration package; it has only been tested with a synthetic CLI fixture, not end-to-end in Aipelago.</p>
+<pre><code class="language-python"># Schematic contract, NOT a pre-existing Aipelago handler.
+async def riskscape_run(model: str, params: dict[str, str]) -&gt; dict:
+    # validate model and params against an explicit allowlist
+    # run subprocess with shell=False, cwd=approved_project_path
+    # check exit status, capture artifact manifest and hashes
+    # return structured JSON so the runtime can examine follow-ups
+    ...
+</code></pre>
+<p>A minimal data contract:</p>
+<pre><code class="language-json">{&quot;tool&quot;: &quot;riskscape_run&quot;, &quot;model&quot;: &quot;damage-by-region&quot;, &quot;parameters&quot;: {&quot;analysis.function&quot;: &quot;Probability_of_Collapse&quot;}}
+</code></pre>
+<p>Output: <code>{run_id, command, exit_code, stdout_path, stderr_path, artifacts:[{path, sha256}], summary}</code>. Agent context should summarize artifacts rather than embed huge raster or CSV blobs. The harness must expose the handler as a tool with appropriate effects and resource policies. A good harness expands what an LLM can actually do; policies, recovery and monitoring are enabling infrastructure, not its core research claim.</p>
+<p><strong>Testing:</strong> manual baseline vs agentic task suite: correct models chosen; correct result interpretation; scenario comparisons; tool failures/recovery; intervention rate; time/cost per completed investigation.</p>
+<h2>3. Tessera: do not mistake model output for observations</h2>
+<p><strong>Existing code:</strong></p>
+<ul>
+<li><code>src/tessera/ingest.py</code>: <code>adapter_iter('jsonl', source_uri)</code> yields records; <code>IngestRecipe</code> maps fields and filters.</li>
+<li><code>src/tessera/engine.py</code>: multi-stage map/fold workflow and explicit <code>StageOutcome</code> with failure/cost/latency semantics.</li>
+<li><code>src/tessera/calibration.py</code>: <code>create_label_sample</code> builds human-reference samples (with inclusion probabilities for stratified sampling), enabling design-based measurement.</li>
+</ul>
+<p><strong>New adapter:</strong> independently sourced <strong>field/insurance/inspection reports</strong> → standardized JSONL with event/asset/region identifiers, timestamps, evidence source and damage codes. Then Tessera's workflow extracts and calibrates observations. A separate <code>compare_evidence.py</code> joins calibrated observations to RiskScape output by carefully matched asset/event keys, reporting match rates and uncertainty.</p>
+<p>Data flow: <code>reports.jsonl</code> → <code>adapter_iter</code> → <code>Recipe / engine.Stage</code> → <code>create_label_sample</code> → <code>observations.csv</code> + <code>event-impact.csv</code> → <strong>new comparison</strong>. Do <em>not</em> take RiskScape's output and call it human ground truth. A successfully parsed report is not automatically a verified measurement.</p>
+<p><strong>Testing:</strong> human-coded agreement, missing/abstain reporting, matching coverage, confidence intervals for calibrated estimates, failure-mode audits. Tessera validates <strong>text-derived measurements</strong>, not tsunami hydrodynamic equations.</p>
+<h2>4. UrbanAgents: infrastructure consequence → people and decisions</h2>
+<p><strong>Existing code:</strong></p>
+<ul>
+<li><code>world/environment.py</code>: <code>CityMap(pois_source=...)</code> supports an in-memory POI inventory; <code>CityMap</code> holds a <code>networkx</code> street graph and POIs.</li>
+<li><code>harness/l6_orchestration/model.py</code>: <code>UrbanModel</code> is a Mesa 3 model; agent decisions run with <strong><code>async def astep()</code></strong> and <code>arun()</code>; <strong>the synchronous <code>step()</code> is a no-op guard</strong>, so it must not be presented as the actual model execution interface.</li>
+<li><code>abm/a3_calibration/sweep.py</code>: scenario sweeps and <code>aggregate</code> for KPIs across seeds.</li>
+<li><code>harness/l7_session/manifest.py</code>: run metadata.</li>
+</ul>
+<p><strong>New code required:</strong> <code>asset_to_network.py</code> maps RiskScape output geometries / asset IDs to street-graph edges and service POIs. <code>apply_disruptions(...)</code> must be implemented to update route availability, service capacity and fallback access. Only then can <code>await model.astep()</code> advance the resulting agents through altered environment states.</p>
+<p>Example conceptual input:</p>
+<pre><code class="language-json">{&quot;event_id&quot;:&quot;quake_01&quot;,&quot;asset_id&quot;:&quot;road_57&quot;,&quot;edge_id&quot;:99101,&quot;functionality&quot;:0,&quot;start_time&quot;:0,&quot;recovery_time&quot;:48}
+</code></pre>
+<p>The current Samoa <code>damage-by-region</code> demonstration summarizes <strong>building damage</strong> and supplies no verified road closures or hospital capacity losses. It cannot directly support an empirically meaningful transport scenario. For the real pilot, first obtain an infrastructure exposure layer and usable vulnerability/disruption assumptions, and then map those outputs into a city-specific environment.</p>
+<p><strong>Testing:</strong> graph connectivity, time-to-hospital, shelter access, intervention effectiveness, sensitivity across seeds, and comparison with observed behavioural/network patterns. Plausible LLM-generated behaviours are hypotheses, not automatically validated predictions.</p>
+<h2>5. Why the three systems are complementary</h2>
+<ul>
+<li><strong>Aipelago</strong>: an LLM's <em>effective capability</em> to operate and investigate the modelling environment through tools, state, context, feedback and long-horizon orchestration. The harness can sometimes make a smaller model more capable at a complex task than a larger model with inadequate tools and state.</li>
+<li><strong>Tessera</strong>: a research-grade <em>measurement workflow</em> for independently sourced unstructured evidence and calibrated aggregate claims.</li>
+<li><strong>UrbanAgents</strong>: a downstream <em>behavioural simulation</em> investigating human/organisational consequences that asset-level damage accounting alone typically cannot estimate.</li>
+</ul>
+<p>Each has a different evaluation standard. A model with tool access is not automatically a valid scientific predictor. A text extraction system is not a physics validator. A simulated policy response needs empirical constraints.</p>
+<h2>6. Licensing, access, provenance</h2>
+<p>The RiskScape public source mirror reviewed here identifies the engine as AGPLv3 and emphasizes research-use restrictions in its file headers. Verify the currently distributed license and discuss obligations before embedding or modifying source in a hosted service. The quickest proposed integrations avoid an engine fork and invoke the existing CLI and function framework.</p>
+<p>Your three code repositories are private. The visual HTML uses screenshots supplied in your earlier presentation and code identifiers verified during inspection. Treat this as a candidate showcase: confirm you are comfortable sharing exact private module paths and screenshots before distributing it outside your team.</p>
+<h3>Source links</h3>
+<ul>
+<li><a href="https://engine-docs.sites.riskscape.nz/">RiskScape Engine official docs</a></li>
+<li><a href="https://engine-docs.sites.riskscape.nz/intro/risk-functions.html">Official Samoa risk functions tutorial</a></li>
+<li><a href="https://github.com/anujdivesh/riskscape_docker">RiskScape public source mirror (1.13)</a></li>
+<li><a href="https://github.com/GNS-Science/riskscape">GNS-Science official example repo</a></li>
+<li><a href="https://github.com/jiaanliux/aipelago">Aipelago</a></li>
+<li><a href="https://github.com/jiaanliux/tessera">Tessera</a></li>
+<li><a href="https://github.com/jiaanliux/UrbanAgents">UrbanAgents</a></li>
+</ul>
+</main></body></html>
